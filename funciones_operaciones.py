@@ -697,6 +697,19 @@ def operaciones_simples (ecu):
                 del ecua [di_c[i]+1]
                 del ecua [di_c[i]+1] 
 
+        elif jerarquia[4] in globals():
+
+            di = globales[jerarquia[4]]
+            di_c = globales[jerarquia_cor[4]]
+            div_l = len(globales[jerarquia[4]])
+            i=0
+             
+            for i in range (i,div_l):
+                ecua[di_c[i]]=di[i]
+                del ecua [di_c[i]+1]
+                del ecua [di_c[i]+1]
+
+        ecua_f = len(ecua)
 
         while ecua_f > 1:
 
@@ -1485,29 +1498,21 @@ def operaciones_complejas(ecu):
     
 
 
-def operaciones_x(entrada,ecu,pestaña,rango_x1,rango_x2,_y1,_y2):
+def operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select):
 
     x = []
     y = []
     i = 0
     lista = []
-    dif_ran=rango_x1-rango_x2
-    l=0
+    l=-100
 
-    for l in range (l,abs(dif_ran)*5+1):
-
-        if len(lista) == 0:
-            lista.append(rango_x1+0.0)
-        
-        else:
-
-            res=lista[-1]+0.2
-            lista.append(round(res,1))
-
-    for i in range (i,len(lista)):
+    while l < 100:
+        x.append(l+0.2)
+        l += 0.2
+    for i in range (i,len(x)):
 
         ecuacion = []
-        x.append(lista[i])
+        #x.append(lista[i])
         j = 0
 
         for j in range (j,len(ecu)):
@@ -1515,7 +1520,7 @@ def operaciones_x(entrada,ecu,pestaña,rango_x1,rango_x2,_y1,_y2):
             siesx=ecu[j]
 
             if siesx == "x":
-                ecuacion.append(lista[i])
+                ecuacion.append(x[i])
 
             else:
                 ecuacion.append(ecu[j])
@@ -1523,10 +1528,10 @@ def operaciones_x(entrada,ecu,pestaña,rango_x1,rango_x2,_y1,_y2):
         resultado_y = operaciones_complejas(ecuacion)
         y.append(resultado_y)
 
-    plot_graph(entrada,pestaña,x,y,_y1,_y2)
+    plot_graph(fig,ax,frame,x,y,entrada,frame_funciones,color_select)
     
 
-def operacion_principal(entrada,entrada_result,ecua,pestaña,entrada_x1,entrada_x2,entrada_y1,entrada_y2):
+def operacion_principal(fig,ax,entrada,entrada_result,ecua,frame,frame_funciones,color_select):
 
     n=len(ecua)
     P_dig=""
@@ -2126,184 +2131,18 @@ def operacion_principal(entrada,entrada_result,ecua,pestaña,entrada_x1,entrada_
 
         ecuacion_y(ecu)
 
-        x1 = entrada_x1.get()
-        x2 = entrada_x2.get()
-        y1 = entrada_y1.get()
-        y2 = entrada_y2.get()
-
-        if x1 == "":
-            _x1 = 0
-
-        else:
-
-            x1_m = 0
-            z = 0
-
-            for z in range ( z,len(x1)):
-
-                if x1[z] == "-":
-                    x1_m +=1
-            
-            if x1_m == 1:
-                _x1 = (int(x1) * 2) - int(x1)
-
-            else:
-                _x1 = int(x1)
-
-
-        if x2 == "":
-            _x2 = 20
-
-        else:
-
-            x2_m = 0
-            Z = 0
-
-            for Z in range ( Z,len(x2)):
-
-                if x2[Z] == "-":
-                    x2_m +=1
-            
-            if x2_m == 1:
-                _x2 = (int(x2) * 2) - int(x2)
-
-            else:
-                _x2 = int(x2)
-
-
-        if y1 == "":
-            _y1 = 0
-
-        else:
-
-            y1_m = 0
-            ñ = 0
-
-            for ñ in range ( ñ,len(y1)):
-
-                if y1[ñ] == "-":
-                    y1_m +=1
-            
-            if y1_m == 1:
-                _y1 = (int(y1) * 2) - int(y1)
-
-            else:
-                _y1 = int(y1)
-
-
-        if y2 == "":
-            _y2 = 20
-
-        else:
-
-            y2_m = 0
-            Ñ = 0
-
-            for Ñ in range ( Ñ,len(y2)):
-
-                if y2[Ñ] == "-":
-                    y2_m +=1
-            
-            if y2_m == 1:
-                _y2 = (int(y2) * 2) - int(y2)
-
-            else:
-                _y2 = int(y2)
-
-        respuesta = operaciones_x(entrada,ecu,pestaña,_x1,_x2,_y1,_y2)
+        respuesta = operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select)
         
 
     elif hay_x > 0:
-        
-        x1 = entrada_x1.get()
-        x2 = entrada_x2.get()
-        y1 = entrada_y1.get()
-        y2 = entrada_y2.get()
-
-        if x1 == "":
-            _x1 = 0
-
-        else:
-
-            x1_m = 0
-            z = 0
-
-            for z in range ( z,len(x1)):
-
-                if x1[z] == "-":
-                    x1_m +=1
-            
-            if x1_m == 1:
-                _x1 = (int(x1) * 2) - int(x1)
-
-            else:
-                _x1 = int(x1)
-
-
-        if x2 == "":
-            _x2 = 20
-
-        else:
-
-            x2_m = 0
-            Z = 0
-
-            for Z in range ( Z,len(x2)):
-
-                if x2[Z] == "-":
-                    x2_m +=1
-            
-            if x2_m == 1:
-                _x2 = (int(x2) * 2) - int(x2)
-
-            else:
-                _x2 = int(x2)
-
-
-        if y1 == "":
-            _y1 = 0
-
-        else:
-
-            y1_m = 0
-            ñ = 0
-
-            for ñ in range ( ñ,len(y1)):
-
-                if y1[ñ] == "-":
-                    y1_m +=1
-            
-            if y1_m == 1:
-                _y1 = (int(y1) * 2) - int(y1)
-
-            else:
-                _y1 = int(y1)
-
-
-        if y2 == "":
-            _y2 = 20
-
-        else:
-
-            y2_m = 0
-            Ñ = 0
-
-            for Ñ in range ( Ñ,len(y2)):
-
-                if y2[Ñ] == "-":
-                    y2_m +=1
-            
-            if y2_m == 1:
-                _y2 = (int(y2) * 2) - int(y2)
-
-            else:
-                _y2 = int(y2)
-
-        respuesta = operaciones_x(entrada,ecu,pestaña,_x1,_x2,_y1,_y2)
+    
+        respuesta = operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select)
 
     else:
 
         respuesta = operaciones_complejas(ecu)
         entrada_result.delete(0,"end")
         entrada_result.insert(0,respuesta)
-        plot_graph(entrada,pestaña,0,0,0,20)
+        plot_graph(fig,ax,entrada,frame,0,0,entrada,frame_funciones,color_select)
+
+    return plot_graph

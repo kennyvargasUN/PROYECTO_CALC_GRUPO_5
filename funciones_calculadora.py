@@ -861,10 +861,16 @@ def boton_presionado(boton):
     ultimo_boton = boton
         
 
+def traduccion (fig,ax,entrada,entrada_result,frame,frame_funciones,color_select):
 
-def traduccion (entrada,entrada_result,pestaña,entrada_x1,entrada_x2,entrada_y1,entrada_y2):
+    
 
-    ecuacion = entrada.get()
+    if type(entrada) == str:
+        ecuacion = entrada
+
+    else:
+        ecuacion = entrada.get()
+
     l_ecuacion = len(ecuacion)
     ecua = [ ]
     i  = 0
@@ -946,11 +952,18 @@ def traduccion (entrada,entrada_result,pestaña,entrada_x1,entrada_x2,entrada_y1
             ecua.append("P")
             i +=1
 
+        elif ecuacion[i] == "÷" :
+            ecua.append("/")
+            i += 1
+
         else:
             ecua.append(ecuacion[i])
             i += 1
 
-    operacion_principal(entrada,entrada_result,ecua,pestaña,entrada_x1,entrada_x2,entrada_y1,entrada_y2)
+    
+    operacion_principal(fig,ax,entrada,entrada_result,ecua,frame,frame_funciones,color_select)
+    
+
 
 
 

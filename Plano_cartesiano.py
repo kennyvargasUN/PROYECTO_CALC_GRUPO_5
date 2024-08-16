@@ -1,23 +1,54 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import *
+from tkinter import *
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 
-
-def plot_graph(entrada,root,x,y,y1,y2):
+line = []
+def plot_graph(fig,ax,frame,x,y,entrada,frame_funciones,color_select):
     
-    fig = Figure(figsize=(5, 4), dpi=100)
-    ax = fig.add_subplot(111)
-    ax.plot(x, y, linestyle='-')
-    ax.set_ylim(bottom = y1,top = y2 )
+    global line
+    glo = globals()
+    grid = glo.get("activar_gird")
+
+    if color_select == "":
+
+        linea = ax.plot(x, y, linestyle='-')
+        color_l = linea[0].get_color()
+
+    else:
+
+        linea = ax.plot(x, y, linestyle='-',color=color_select)
+        color_l = linea[0].get_color()
+
+    if type(entrada) == str:
+        funcion = (entrada,linea,color_l)
+
+    else:
+        funcion = (entrada.get(),linea,color_l)
+
+    line.append(funcion)
     ax.set_title('Plano Cartesiano')
     ax.set_xlabel('Eje X')
     ax.set_ylabel('Eje Y')
-    ax.grid(True)
-    ax.axhline(0, color='black', linewidth=1)
+    ax.axhline(0, color='black', linewidth=0.5)
     ax.axvline(0, color='black', linewidth=0.5)
+    if grid == True or grid == None:
+        ax.grid(True)
+    
+    
 
     # Integrar el gráfico en la interfaz de Tkinter
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.get_tk_widget().place(x=325, y=2, width=570, height=450)
-    canvas.get_tk_widget().configure(takefocus=0)
-    entrada.focus_set()
+    canvas = FigureCanvasTkAgg(fig, master=frame)
+    canvas.draw()
+    canvas_widget = canvas.get_tk_widget()
+    canvas_widget.place(relx=0, rely= 0, relwidth=1, relheight=0.9)
+    toolbar = NavigationToolbar2Tk(canvas, frame)
+    toolbar.update()
+    toolbar.place(relx=0, rely=0.9, relwidth=1, relheight=0.1)
+
+    
+
+    if type(entrada) != str:
+        entrada.focus_set()
+
+
