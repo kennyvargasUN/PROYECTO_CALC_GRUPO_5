@@ -1235,8 +1235,8 @@ def show_menu(event):
 
     frame_x = boton_tam_fun.winfo_rootx()
     frame_y = boton_tam_fun.winfo_rooty()
-    fixed_x = frame_x + 170   
-    fixed_y = frame_y  
+    fixed_x = frame_x + 160   
+    fixed_y = frame_y - 22
     menu.post(fixed_x, fixed_y)
 
 
@@ -1244,8 +1244,8 @@ def show_menu_tip(event):
 
     frame_x = boton_tip_fun.winfo_rootx()
     frame_y = boton_tip_fun.winfo_rooty()
-    fixed_x = frame_x + 190  
-    fixed_y = frame_y  
+    fixed_x = frame_x + 160  
+    fixed_y = frame_y - 22
     menu_tip.post(fixed_x, fixed_y)
 
 
