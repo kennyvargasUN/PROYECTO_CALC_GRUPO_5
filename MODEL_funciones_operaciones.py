@@ -1,6 +1,9 @@
 import math
 from VIEW_Plano_cartesiano import *
 
+hay_x = 0
+
+
 def suma(a,b):
     c=a+b
     return(c)
@@ -17,7 +20,12 @@ def mult(a,b):
 
 
 def div(a,b):
-    c=a/b
+
+    if hay_x > 0 and b == 0:
+        c = 10000000000000
+
+    else:
+        c=a/b
     return(c)
 
 
@@ -129,7 +137,6 @@ def factorial(a):
             c *= i
         
         return c
-
 
 
 def operaciones_simples (ecu):
@@ -938,7 +945,7 @@ def operaciones_complejas(ecu):
                 ecua.extend(ecu[cor_i:cor_f])
                 resultado=operaciones_simples(ecua)
                 resultado = tg(resultado)
-                co.append(resultado)
+                co.append(round(resultado,13))
                 dif+=cor_f-cor_i+2
                 i = cor_f
                 i = cor_f+1
@@ -1204,15 +1211,59 @@ def operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select):
     y = []
     i = 0
     lista = []
-    l=-100
+    hay_log=ecu.count("L")
+    hay_ln=ecu.count("l")
+    hay_asen = ecu.count("s")
+    hay_acos = ecu.count("u")
+    hay_raiz = ecu.count("r")
+    hay_W = ecu.count("w")
+    hay_tn = ecu.count("T")
 
-    while l < 100:
-        x.append(l+0.2)
-        l += 0.2
+    if hay_log > 0 or hay_ln > 0 or hay_raiz:
+        l=0.2
+        x.append(l)
+
+        while l < 50:
+            x.append(round(l+0.2, 5))
+            l += 0.2
+
+    elif hay_asen > 0 or hay_acos > 0:
+        l=-1
+        x.append(l)
+
+        while l < 1:
+            x.append(round(l+0.2, 5))
+            l += 0.2
+
+    elif hay_W > 0:
+        l=0
+        x.append(l)
+
+        while l < 20:
+            x.append(round(l+0.2, 5))
+            l += 0.2
+
+    elif hay_tn > 0:
+        l = -50
+        x.append(l)
+
+        while l < 50:
+            x.append(l+0.025)
+            l += 0.025
+
+        
+
+    else:
+        l=-50
+        x.append(l)
+
+        while l < 50:
+            x.append(round(l+0.2, 5))
+            l += 0.2
+
     for i in range (i,len(x)):
 
         ecuacion = []
-        #x.append(lista[i])
         j = 0
 
         for j in range (j,len(ecu)):
@@ -1228,7 +1279,7 @@ def operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select):
         resultado_y = operaciones_complejas(ecuacion)
         y.append(resultado_y)
 
-    plot_graph(fig,ax,frame,x,y,entrada,frame_funciones,color_select)
+    plot_graph(fig,ax,frame,x,y,entrada,frame_funciones,color_select,hay_tn)
     
 
 def operacion_principal(fig,ax,entrada,entrada_result,ecua,frame,frame_funciones,color_select):
@@ -1237,6 +1288,9 @@ def operacion_principal(fig,ax,entrada,entrada_result,ecua,frame,frame_funciones
     P_dig=""
     ecu = []
     i = 0
+
+    global hay_x
+
     try:
         for i in range(i,n):
 
@@ -1465,19 +1519,14 @@ def operacion_principal(fig,ax,entrada,entrada_result,ecua,frame,frame_funciones
         if P_dig != "":
             ecu.append(float(P_dig))
 
-        hay_y = 0
         hay_x = 0
 
         i = 0
 
         for i in range (i,len(ecu)):
 
-            if ecu[i] == "y":
-                hay_y = 1
-
-            elif ecu[i] == "x":
+            if ecu[i] == "x":
                 hay_x = 1
-        
 
         if hay_x > 0:
         

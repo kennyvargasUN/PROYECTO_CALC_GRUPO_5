@@ -2,15 +2,32 @@ from matplotlib.backends.backend_tkagg import *
 from tkinter import *
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+import numpy as np
 
 line = []
 
-def plot_graph(fig,ax,frame,x,y,entrada,frame_funciones,color_select):
+
+def plot_graph(fig,ax,frame,x,y,entrada,frame_funciones,color_select,hay_tn=0):
     
     global line
 
     glo = globals()
     grid = glo.get("activar_gird")
+
+    if hay_tn > 0:
+
+        if y != 0:
+
+            for i in range(len(y)):
+                if abs(y[i]) >= 8:
+                    y[i] = float('nan')
+
+    else:
+        if y != 0:
+
+            for i in range(len(y)):
+                if abs(y[i]) >= 50:
+                    y[i] = float('nan')
 
     if color_select == "":
 

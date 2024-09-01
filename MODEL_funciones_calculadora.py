@@ -1,8 +1,7 @@
 from tkinter import *
 from MODEL_funciones_operaciones import *
+import uuid
 
-contador = 0000
-entradaANS = 0
 contador_sen = 0
 contador_cos = 0
 contador_tg = 0
@@ -21,7 +20,8 @@ contador_base_diez = 0
 contador_euler = 0
 contador_factorial = 0
 bo_log = 0
-ultimo_boton = ""
+ultimo_boton = ""  
+
 
 def bloqueo_teclado(evento):
         return "break"
@@ -222,11 +222,9 @@ def AC(pestaña,entradas,entrada,entrada_result):
     entrada_result.delete(0,"end")
 
 
-
 def DEL(pestaña,entradas,entrada):
 
     foco = pestaña.focus_get()
-    global movidas_izq
     texto=entrada.get()
     contador = len(texto)
 
@@ -597,7 +595,7 @@ def traduccion (fig,ax,entrada,entrada_result,frame,frame_funciones,color_select
 
             elif ecuacion[i] == "l" and ecuacion[i+1] == "o" :
                 ecua.append("L")
-                i +=3
+                i +=4
 
             elif ecuacion[i] == "l" and ecuacion[i+1] == "n" :
                 ecua.append("l")
@@ -659,8 +657,6 @@ def traduccion (fig,ax,entrada,entrada_result,frame,frame_funciones,color_select
 
 
 def opciones ():
-    global contador
 
-    contador += 1
-
-    return f"Opcion_{contador:04d}"
+    id_aleatorio = str(uuid.uuid4())
+    return id_aleatorio

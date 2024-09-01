@@ -26,13 +26,14 @@ activar_gird = True
 fra_men = []
 funciones = []
 fun = ""
-po_col = 0
-po_fil = 0
+check = 0
+po_col = [0,0,1,1,2,2]
+po_fil = [0,1,0,1,0,1]
 botones_num = []
 botones_oper = []
 botones_res = []
 botones_conf = []
-lista_check = []
+lista_check = [0,0,0,0,0,0]
 bot = []
 tam_act = "Pre."
 tam = 0
@@ -52,6 +53,11 @@ firebaseConfig = {
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
+
+menu_abierto = False  
+menu_abierto_eli = False
+menu_conf = False
+
 
 def ventana ():
 
@@ -91,7 +97,7 @@ def ventana ():
 
     entradas = [0,0,0,0]
 
-    boton_1 = Button(frame_calculadora, text="1",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,1),boton_presionado("boton_1"),print(boton_1.winfo_width())])
+    boton_1 = Button(frame_calculadora, text="1",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,1),boton_presionado("boton_1")])
     boton_1.place(relx=0.035, rely=0.7825, relwidth=0.145, relheight=0.09)
 
     boton_2 = Button(frame_calculadora, text="2",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,2),boton_presionado("boton_2")])
@@ -142,22 +148,22 @@ def ventana ():
     boton_resultado = Button(frame_calculadora, text="Graficar/Resultado",font=("Open Sans",7),compound="center",command= lambda : [(entrada_result),mostrar_funciones (entrada,frame_funciones,traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select)),data(usuario,obtener_fecha_actual(),opciones(),entrada)])
     boton_resultado.place(relx=0.659, rely=0.295,relwidth=0.30, relheight=0.09)
 
-    boton_sen = Button(frame_calculadora, text="sen",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen()"),boton_presionado("boton_sen")])
+    boton_sen = Button(frame_calculadora, text="sen",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen("),boton_presionado("boton_sen")])
     boton_sen.place(relx=0.035, rely=0.295, relwidth=0.145, relheight=0.09)
 
-    boton_cos = Button(frame_calculadora, text="cos",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos()"),boton_presionado("boton_cos")])
+    boton_cos = Button(frame_calculadora, text="cos",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos("),boton_presionado("boton_cos")])
     boton_cos.place(relx=0.191, rely=0.295, relwidth=0.145, relheight=0.09)
 
-    boton_tg = Button(frame_calculadora, text="tg",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg()"),boton_presionado("boton_tg")])
+    boton_tg = Button(frame_calculadora, text="tg",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg("),boton_presionado("boton_tg")])
     boton_tg.place(relx=0.347, rely=0.295, relwidth=0.145, relheight=0.09)
 
-    boton_asen = Button(frame_calculadora, text="sen-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen-1()"),boton_presionado("boton_asen")])
+    boton_asen = Button(frame_calculadora, text="sen-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen-1("),boton_presionado("boton_asen")])
     boton_asen.place(relx=0.035, rely=0.3925, relwidth=0.145, relheight=0.09)
 
-    boton_acos = Button(frame_calculadora, text="cos-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos-1()"),boton_presionado("boton_acos")])
+    boton_acos = Button(frame_calculadora, text="cos-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos-1("),boton_presionado("boton_acos")])
     boton_acos.place(relx=0.191, rely=0.3925, relwidth=0.145, relheight=0.09)
 
-    boton_atg = Button(frame_calculadora, text="tg-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg-1()"),boton_presionado("boton_atg")])
+    boton_atg = Button(frame_calculadora, text="tg-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg-1("),boton_presionado("boton_atg")])
     boton_atg.place(relx=0.347, rely=0.3925, relwidth=0.145, relheight=0.09)
 
     boton_pi = Button(frame_calculadora, text="ℼ",font=("Times New Roman",13, "italic"),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"ℼ"),boton_presionado("boton_pi")])
@@ -175,16 +181,16 @@ def ventana ():
     boton_AC = Button(frame_calculadora, text="AC",font=("Open Sans",13),compound="center",command= lambda : [AC(pestaña,entradas,entrada,entrada_result)])
     boton_AC.place(relx=0.815, rely=0.3925, relwidth=0.145, relheight=0.09)
 
-    boton_logaritmo = Button(frame_calculadora, text="log",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"log_()()"),boton_presionado("boton_logaritmo")])
+    boton_logaritmo = Button(frame_calculadora, text="log",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"log_()("),boton_presionado("boton_logaritmo")])
     boton_logaritmo.place(relx=0.035, rely=0.49, relwidth=0.145, relheight=0.09)
 
-    boton_ln = Button(frame_calculadora, text="ln",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"ln()"),boton_presionado("boton_ln")])
+    boton_ln = Button(frame_calculadora, text="ln",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"ln("),boton_presionado("boton_ln")])
     boton_ln.place(relx=0.191, rely=0.49, relwidth=0.145, relheight=0.09)
 
     boton_potencia = Button(frame_calculadora, text="□▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()^("),boton_presionado("boton_potencia")])
     boton_potencia.place(relx=0.347, rely=0.49, relwidth=0.145, relheight=0.09)
 
-    boton_raiz = Button(frame_calculadora, text="▫√",font=("Open Sans",13),compound="center", command= lambda : [ click_boton(pestaña,entradas,entrada,"()^√()"),boton_presionado("boton_raiz")])
+    boton_raiz = Button(frame_calculadora, text="▫√",font=("Open Sans",13),compound="center", command= lambda : [ click_boton(pestaña,entradas,entrada,"()^√("),boton_presionado("boton_raiz")])
     boton_raiz.place(relx=0.659, rely=0.685, relwidth=0.145, relheight=0.09)
 
     boton_parentesis_a = Button(frame_calculadora, text="(",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"("),boton_presionado("boton_parentesis_a")])
@@ -196,10 +202,10 @@ def ventana ():
     boton_valor_adsoluto = Button(frame_calculadora, text="|□|",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"|"),boton_presionado("boton_valor_adsoluto")])
     boton_valor_adsoluto.place(relx=0.659, rely=0.5875, relwidth=0.145, relheight=0.09)
 
-    boton_fraccion = Button(frame_calculadora, text="▫∕▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"() ∕ ()"),boton_presionado("boton_fraccion")])
+    boton_fraccion = Button(frame_calculadora, text="▫∕▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"() ∕ ("),boton_presionado("boton_fraccion")])
     boton_fraccion.place(relx=0.815, rely=0.5875, relwidth=0.145, relheight=0.09)
 
-    boton_cientifica = Button(frame_calculadora, text="×10▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()×10^()"),boton_presionado("boton_cientifica")])
+    boton_cientifica = Button(frame_calculadora, text="×10▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()×10^("),boton_presionado("boton_cientifica")])
     boton_cientifica.place(relx=0.815, rely=0.685, relwidth=0.145, relheight=0.09)
 
     boton_porcentaje = Button(frame_calculadora, text="%",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()%("),boton_presionado("boton_porcentaje")])
@@ -248,11 +254,6 @@ def ventana ():
     pestaña.mainloop()
 
 
-menu_abierto = False  
-menu_abierto_eli = False
-menu_conf = False
-
-
 def historial(pestaña):
 
     global menu_principal, submenu, submenu_frame, submenu_valores, menu_abierto,us
@@ -271,10 +272,10 @@ def historial(pestaña):
             try:
 
                 us = Label(frame_calculadora, text=f"Usuario Actual: {usuario}")
-                us.place(relx=0.035, rely=0.052, relwidth=0.920, relheight=0.04)
+                us.place(relx=0.035, rely=0.077, relwidth=0.920, relheight=0.04)
 
                 menu_principal = ttk.Combobox(frame_calculadora, values=nodo(usuario))
-                menu_principal.place(relx=0.035, rely=0.092, relwidth=0.920, relheight=0.04)
+                menu_principal.place(relx=0.035, rely=0.117, relwidth=0.920, relheight=0.04)
                 menu_principal.set(nodo(usuario)[-1])
 
                 submenu_frame = Frame(frame_calculadora)
@@ -283,7 +284,7 @@ def historial(pestaña):
                 barra_desplazamiento = Scrollbar(submenu_frame, orient="vertical", command=submenu.yview)
                 barra_desplazamiento.pack(side="right", fill="y")  # Empaqueta la barra de desplazamiento
                 submenu.config(yscrollcommand=barra_desplazamiento.set)  # Configura la barra de desplazamiento
-                submenu_frame.place(relx=0.035, rely=0.1322, relwidth=0.920, relheight=0.2)
+                submenu_frame.place(relx=0.035, rely=0.1572, relwidth=0.920, relheight=0.2)
 
                 submenu_valores = []  # Inicializamos la lista vacía
 
@@ -308,7 +309,7 @@ def mostrar_submenu(event):
     seleccionar_opcion = menu_principal.get()
     submenu.delete(0, END)
     submenu_valore = subnodos(usuario,seleccionar_opcion)
-    sub = len(submenu_valores)
+    sub = len(submenu_valore)
     i = 0
     
     for i in range (i,sub):
@@ -319,19 +320,22 @@ def mostrar_submenu(event):
         
     submenu.config(width=300)
     menu_principal.select_clear()
-    submenu_frame.place(relx=0.035, rely=0.132, relwidth=0.920, relheight=0.2)
+    submenu_frame.place(relx=0.035, rely=0.157, relwidth=0.920, relheight=0.2)
 
     submenu.bind("<ButtonRelease-1>", lambda event: obtener_opcion_seleccionada())
 
     submenu.bind("<Button-1>", cerrar_hasta_combobox,)
 
+
 def cerrar_hasta_combobox(event):
 
     global menu_principal, submenu, submenu_frame, menu_abierto
 
+    us.destroy()
     menu_principal.place_forget()
     submenu_frame.place_forget()
     menu_abierto = False
+
 
 def eliminar_historial (pestaña):
 
@@ -351,10 +355,10 @@ def eliminar_historial (pestaña):
             try:
 
                 us = Label(frame_calculadora, text=f"Usuario Actual: {usuario}")
-                us.place(relx=0.035, rely=0.052, relwidth=0.920, relheight=0.04)
+                us.place(relx=0.035, rely=0.077, relwidth=0.920, relheight=0.04)
 
                 menu_principal = ttk.Combobox(frame_calculadora, values=nodo(usuario))
-                menu_principal.place(relx=0.035, rely=0.092, relwidth=0.920, relheight=0.04)
+                menu_principal.place(relx=0.035, rely=0.117, relwidth=0.920, relheight=0.04)
                 menu_principal.set(nodo(usuario)[-1])
 
                 submenu_frame = Frame(frame_calculadora)
@@ -363,7 +367,7 @@ def eliminar_historial (pestaña):
                 barra_desplazamiento = Scrollbar(submenu_frame, orient="vertical", command=submenu.yview)
                 barra_desplazamiento.pack(side="right", fill="y")  
                 submenu.config(yscrollcommand=barra_desplazamiento.set)  
-                submenu_frame.place(relx=0.035, rely=0.132, relwidth=0.920, relheight=0.2)
+                submenu_frame.place(relx=0.035, rely=0.157, relwidth=0.920, relheight=0.2)
 
                 submenu_valores = []  
 
@@ -398,7 +402,7 @@ def eliminar_submenu(event):
         
     submenu.config(width=300)
     menu_principal.select_clear()
-    submenu_frame.place(relx=0.035, rely=0.132, relwidth=0.920, relheight=0.2)
+    submenu_frame.place(relx=0.035, rely=0.157, relwidth=0.920, relheight=0.2)
 
     submenu.bind("<ButtonRelease-1>", lambda event: obtener_opcion_seleccionada_eli(seleccionar_opcion,submenu_valore))
    
@@ -419,6 +423,7 @@ def obtener_fecha_actual():
 
     fecha_actual = str(datetime.today().strftime("%Y-%m-%d"))
     return fecha_actual
+
 
 def data (usuario,fecha,opcion,entrada):
 
@@ -470,7 +475,7 @@ def obtener_opcion_seleccionada():
         entrada.delete(0,END)
         entrada.insert(0,opcion_seleccionada)
 
-        traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select),(entrada_result),mostrar_funciones(entrada, frame_funciones)
+        traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select),mostrar_funciones(entrada, frame_funciones),data(usuario,obtener_fecha_actual(),opciones(),entrada)
             
 
 def obtener_opcion_seleccionada_eli(seleccionar_opcion,submenu_valore):
@@ -489,9 +494,9 @@ def obtener_opcion_seleccionada_eli(seleccionar_opcion,submenu_valore):
         borrar(usuario,seleccionar_opcion,subno)
 
 
-def mostrar_funciones (entrada,frame_funciones,si):
+def mostrar_funciones (entrada,frame_funciones,si=True):
 
-    global funciones,j,mi_bool,fun,po_col,po_fil,lista_check
+    global funciones,j,mi_bool,fun,po_col,po_fil,lista_check,check
 
     if si == True:
 
@@ -516,25 +521,29 @@ def mostrar_funciones (entrada,frame_funciones,si):
 
             if est_modo == False:
 
-                j = Checkbutton(frame_funciones, text=f"Mostrar Función {fun}",font=("Open Sans", 10),bg="#B2B2B2",selectcolor=color, variable=mi_bool)
-                j.place(relx=po_col*0.333333 , rely=po_fil*0.5, relwidth=0.333333, relheight=0.5)
-                lista_check.append(j)
+                if type(lista_check[check]) == Checkbutton:
+                    eliminar_funcion(ax,fig,frame_grafica,lista_check[check])
+                    lista_check[check].destroy()
+                    
+                j = Checkbutton(frame_funciones, text=f"{fun}",font=("Open Sans", 10),bg="#B2B2B2",selectcolor=color, variable=mi_bool)
+                j.place(relx=po_col[check]*0.333333 , rely=po_fil[check]*0.5, relwidth=0.333333, relheight=0.5)
+                lista_check[check] = j
+                check += 1
 
             else:
 
-                j = Checkbutton(frame_funciones, text=f"Mostrar Función {fun}",font=("Open Sans", 10),bg="white",selectcolor=color, variable=mi_bool)
-                j.place(relx=po_col*0.333333 , rely=po_fil*0.5, relwidth=0.333333, relheight=0.5)
-                lista_check.append(j)
+                if type(lista_check[check]) == Checkbutton:
+                    eliminar_funcion(ax,fig,frame_grafica,lista_check[check])
+                    lista_check[check].destroy()
 
+                j = Checkbutton(frame_funciones, text=f"{fun}",font=("Open Sans", 10),bg="white",selectcolor=color, variable=mi_bool)
+                j.place(relx=po_col[check]*0.333333 , rely=po_fil[check]*0.5, relwidth=0.333333, relheight=0.5)
+                lista_check[check] = j
+                check += 1
 
-            if po_fil == 1:
-
-                po_col +=1
-                po_fil = 0
-
-            else:
-
-                po_fil +=1
+            if check == 6:
+                check = 0
+            
 
             mi_bool.nombre = fun
             mi_bool.checkbutton = j
@@ -543,15 +552,9 @@ def mostrar_funciones (entrada,frame_funciones,si):
 
 def eliminar_funcion(ax,fig,frame_grafica,mi_bool):
 
-    fun = mi_bool.nombre
+    if type(mi_bool) == Checkbutton:
 
-    if mi_bool.get():
-
-        color_select = mi_bool.checkbutton.cget("selectcolor")
-
-        traduccion(fig,ax,fun,entrada_result,frame_grafica,frame_funciones,color_select)
-
-    else:
+        fun = mi_bool.cget('text')
 
         glob = globals()
         linea = glob.get("line")
@@ -575,6 +578,41 @@ def eliminar_funcion(ax,fig,frame_grafica,mi_bool):
                 toolbar.update()
                 toolbar.place(relx=0, rely=0.9, relwidth=1, relheight=0.1)
                 break
+
+    else:
+
+        fun = mi_bool.nombre
+
+        if mi_bool.get():
+
+            color_select = mi_bool.checkbutton.cget("selectcolor")
+
+            traduccion(fig,ax,fun,entrada_result,frame_grafica,frame_funciones,color_select)
+
+        else:
+
+            glob = globals()
+            linea = glob.get("line")
+
+            for i in range(0,len(linea)):
+
+                ver = linea[i]
+
+                if ver[0] == fun:
+
+                    ver_1 = ver[1]
+                    line.pop(i)
+
+                    ver_1[0].remove()
+
+                    canvas = FigureCanvasTkAgg(fig, master=frame_grafica)
+                    canvas.draw()
+                    canvas_widget = canvas.get_tk_widget()
+                    canvas_widget.place(relx=0, rely= 0, relwidth=1, relheight=0.9)
+                    toolbar = NavigationToolbar2Tk(canvas, frame_grafica)
+                    toolbar.update()
+                    toolbar.place(relx=0, rely=0.9, relwidth=1, relheight=0.1)
+                    break
 
 
 def diseño (event):
@@ -636,10 +674,11 @@ def diseño (event):
         aplicar_fondo(boton_conf,image_conf)
 
         for i in lista_check:
-
-            i.config(bg="#B2B2B2")
-            i.config(bd=0)
-            i.config(highlightthickness=0)
+            
+            if i != 0:
+                i.config(bg="#B2B2B2")
+                i.config(bd=0)
+                i.config(highlightthickness=0)
 
         if len(fra_men) > 0 :
 
@@ -703,9 +742,11 @@ def diseño (event):
 
         for i in lista_check:
 
-            i.config(bg="white")
-            i.config(bd=0)
-            i.config(highlightthickness=0)
+            if i != 0:
+
+                i.config(bg="white")
+                i.config(bd=0)
+                i.config(highlightthickness=0)
 
         if len(fra_men) > 0 :
 
@@ -763,16 +804,16 @@ def menu_confi ():
             frame_menu = Frame(pestaña)
             fra_men.append(frame_menu)
 
-        frame_menu.place(relx=0.012, rely=0.051, relwidth=0.20, relheight=0.4)
+        frame_menu.place(relx=0.012, rely=0.076, relwidth=0.20, relheight=0.4)
         var = IntVar(value=1)
 
         if est_modo == False:
 
             us_men = Label(frame_menu,text=f"Usuario Actual : {usuario}",bg="#B2B2B2")
-            us_men.place(relx=0.002, rely=0, relwidth=1)
+            us_men.place(relx=0.002, rely=0, relwidth=1,relheight=0.1)
 
             checkbutton = Checkbutton(frame_menu, text=" Grilla en el plano cartesiano", bg="#B2B2B2", variable=var, command=toggle_checkbutton)
-            checkbutton.place(relx=0.002, rely=0.166)
+            checkbutton.place(relx=0.002, rely=0.166,relheight=0.1)
             fra_men.append(checkbutton)
 
             zip_path = 'VIEW_Botones.zip'
@@ -781,8 +822,9 @@ def menu_confi ():
             
 
             boton_tam_fun = Button(frame_menu, text=f"Tamaño de fuente : {tam_act}",bg="#B2B2B2",compound="center",fg="white",bd=0,highlightthickness=0)
-            boton_tam_fun.place(relx=0.05, rely=0.332, relwidth=0.9)
-            resized_image = redimencionar_imagen(image_noche_conf, 162, 20)
+            boton_tam_fun.place(relx=0.05, rely=0.332, relwidth=0.9,relheight=0.1)
+            boton_tam_fun.update_idletasks()
+            resized_image = redimencionar_imagen(image_noche_conf, boton_tam_fun.winfo_width(), boton_tam_fun.winfo_height())
             boton_tam_fun.config(image=resized_image)
             boton_tam_fun.image = resized_image
 
@@ -794,8 +836,9 @@ def menu_confi ():
             menu.add_command(label="- 2", command=lambda: tamaño_fuente (3))
 
             boton_tip_fun = Button(frame_menu, text=f"Tipo de fuente : {tip_act}",bg="#B2B2B2",compound="center",fg="white",bd=0,highlightthickness=0)
-            boton_tip_fun.place(relx=0.05, rely=0.498, relwidth=0.9)
-            resized_image = redimencionar_imagen(image_noche_conf, 162, 20)
+            boton_tip_fun.place(relx=0.05, rely=0.498, relwidth=0.9,relheight=0.1)
+            boton_tip_fun.update_idletasks()
+            resized_image = redimencionar_imagen(image_noche_conf, boton_tip_fun.winfo_width(), boton_tip_fun.winfo_height())
             boton_tip_fun.config(image=resized_image)
             boton_tip_fun.image = resized_image
 
@@ -808,22 +851,25 @@ def menu_confi ():
             if usuario == "Invitado":
 
                 boton_inicio_se = Button(frame_menu, text="Iniciar sesión",bg="#B2B2B2",compound="center",fg="white",bd=0,highlightthickness=0, command=venta_sesion)
-                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9)
-                resized_image = redimencionar_imagen(image_noche_conf, 162, 20)
+                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9, relheight=0.1)
+                boton_inicio_se.update_idletasks()
+                resized_image = redimencionar_imagen(image_noche_conf, boton_inicio_se.winfo_width(), boton_inicio_se.winfo_height())
                 boton_inicio_se.config(image=resized_image)
                 boton_inicio_se.image = resized_image
             
             else:
 
                 boton_inicio_se = Button(frame_menu, text="Cerrar sesión",bg="#B2B2B2",compound="center",fg="white",bd=0,highlightthickness=0, command= ac_ )
-                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9)
-                resized_image = redimencionar_imagen(image_noche_conf, 162, 20)
+                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9,relheight=0.1)
+                boton_inicio_se.update_idletasks()
+                resized_image = redimencionar_imagen(image_noche_conf, boton_inicio_se.winfo_width(), boton_inicio_se.winfo_height())
                 boton_inicio_se.config(image=resized_image)
                 boton_inicio_se.image = resized_image
 
             boton_inicio_re = Button(frame_menu, text="Registrarse",bg="#B2B2B2",compound="center",fg="white",bd=0,highlightthickness=0, command=venta_registro)
-            boton_inicio_re.place(relx=0.05, rely=0.83, relwidth=0.9)
-            resized_image = redimencionar_imagen(image_noche_conf, 162, 20)
+            boton_inicio_re.place(relx=0.05, rely=0.83, relwidth=0.9,relheight=0.1)
+            boton_inicio_re.update_idletasks()
+            resized_image = redimencionar_imagen(image_noche_conf, boton_inicio_re.winfo_width(), boton_inicio_re.winfo_height())
             boton_inicio_re.config(image=resized_image)
             boton_inicio_re.image = resized_image
 
@@ -833,10 +879,10 @@ def menu_confi ():
         else:
 
             us_men = Label(frame_menu,text=f"Usuario Actual : {usuario}",)
-            us_men.place(relx=0.002, rely=0, relwidth=1)
+            us_men.place(relx=0.002, rely=0, relwidth=1,relheight=0.1)
 
             checkbutton = Checkbutton(frame_menu, text=" Grilla en el plano cartesiano", variable=var, command=toggle_checkbutton)
-            checkbutton.place(relx=0.002, rely=0.166)
+            checkbutton.place(relx=0.002, rely=0.166,relheight=0.1)
             fra_men.append(checkbutton)
 
             zip_path = 'VIEW_Botones.zip'
@@ -846,8 +892,9 @@ def menu_confi ():
             pestaña.option_add('*Menu*background', 'white')
 
             boton_tam_fun = Button(frame_menu, text=f"Tamaño de fuente : {tam_act}",compound="center",bd=0,highlightthickness=0)
-            boton_tam_fun.place(relx=0.05, rely=0.332, relwidth=0.9)
-            resized_image = redimencionar_imagen(image_dia_conf, 162, 20)
+            boton_tam_fun.place(relx=0.05, rely=0.332, relwidth=0.9,relheight=0.1)
+            boton_tam_fun.update_idletasks()
+            resized_image = redimencionar_imagen(image_dia_conf, boton_tam_fun.winfo_width(), boton_tam_fun.winfo_height())
             boton_tam_fun.config(image=resized_image)
             boton_tam_fun.image = resized_image
 
@@ -857,8 +904,9 @@ def menu_confi ():
             menu.add_command(label="- 5", command=lambda: tamaño_fuente (3))
 
             boton_tip_fun = Button(frame_menu, text=f"Tipo de fuente : {tip_act}",compound="center",bd=0,highlightthickness=0)
-            boton_tip_fun.place(relx=0.05, rely=0.498, relwidth=0.9)
-            resized_image = redimencionar_imagen(image_dia_conf, 162, 20)
+            boton_tip_fun.place(relx=0.05, rely=0.498, relwidth=0.9,relheight=0.1)
+            boton_tip_fun.update_idletasks()
+            resized_image = redimencionar_imagen(image_dia_conf, boton_tip_fun.winfo_width(), boton_tip_fun.winfo_height())
             boton_tip_fun.config(image=resized_image)
             boton_tip_fun.image = resized_image
 
@@ -870,22 +918,25 @@ def menu_confi ():
             if usuario == "Invitado":
 
                 boton_inicio_se = Button(frame_menu, text="Iniciar sesión",compound="center",bd=0,highlightthickness=0, command= venta_sesion)
-                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9)
-                resized_image = redimencionar_imagen(image_dia_conf, 162, 20)
+                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9,relheight=0.1)
+                boton_inicio_se.update_idletasks()
+                resized_image = redimencionar_imagen(image_dia_conf, boton_inicio_se.winfo_width(), boton_inicio_se.winfo_height())
                 boton_inicio_se.config(image=resized_image)
                 boton_inicio_se.image = resized_image
 
             else:
 
                 boton_inicio_se = Button(frame_menu, text="Cerrar sesión",compound="center",bd=0,highlightthickness=0, command= ac_ )
-                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9)
-                resized_image = redimencionar_imagen(image_dia_conf, 162, 20)
+                boton_inicio_se.place(relx=0.05, rely=0.664, relwidth=0.9,relheight=0.1)
+                boton_inicio_se.update_idletasks()
+                resized_image = redimencionar_imagen(image_dia_conf, boton_inicio_se.winfo_width(), boton_inicio_se.winfo_height())
                 boton_inicio_se.config(image=resized_image)
                 boton_inicio_se.image = resized_image
 
             boton_inicio_re = Button(frame_menu, text="Registrarse",compound="center",bd=0,highlightthickness=0, command=venta_registro)
-            boton_inicio_re.place(relx=0.05, rely=0.83, relwidth=0.9)
-            resized_image = redimencionar_imagen(image_dia_conf, 162, 20)
+            boton_inicio_re.place(relx=0.05, rely=0.83, relwidth=0.9,relheight=0.1)
+            boton_inicio_re.update_idletasks()
+            resized_image = redimencionar_imagen(image_dia_conf, boton_inicio_re.winfo_width(), boton_inicio_re.winfo_height())
             boton_inicio_re.config(image=resized_image)
             boton_inicio_re.image = resized_image
 
@@ -1017,16 +1068,18 @@ def tamaño_fuente (op):
 
         for l in lista_check:
 
-            current_font_name = l.cget("font")  
-            current_font = font.Font(font=current_font_name)
-            current_size = current_font.cget("size")      
-            nuevo_tamano = current_size + 2
-            current_font.configure(size=nuevo_tamano)
-            l.config(font=current_font)
+            if l != 0:
+
+                current_font_name = l.cget("font")  
+                current_font = font.Font(font=current_font_name)
+                current_size = current_font.cget("size")      
+                nuevo_tamano = current_size + 2
+                current_font.configure(size=nuevo_tamano)
+                l.config(font=current_font)
 
         tam_act = "+ 2"
         tam += 2
-        boton_tam_fun.config(text="Tamaño de fuente : + 5") 
+        boton_tam_fun.config(text="Tamaño de fuente : + 2") 
 
     elif op == 3:
         
@@ -1057,16 +1110,18 @@ def tamaño_fuente (op):
 
         for l in lista_check:
 
-            current_font_name = l.cget("font")  
-            current_font = font.Font(font=current_font_name)
-            current_size = current_font.cget("size")       
-            nuevo_tamano = current_size - 2
-            current_font.configure(size=nuevo_tamano)
-            l.config(font=current_font)
+            if l != 0:
+
+                current_font_name = l.cget("font")  
+                current_font = font.Font(font=current_font_name)
+                current_size = current_font.cget("size")       
+                nuevo_tamano = current_size - 2
+                current_font.configure(size=nuevo_tamano)
+                l.config(font=current_font)
 
         tam_act = "- 2"
         tam -= 2
-        boton_tam_fun.config(text="Tamaño de fuente : - 5") 
+        boton_tam_fun.config(text="Tamaño de fuente : - 2") 
 
     else:
         
@@ -1097,12 +1152,14 @@ def tamaño_fuente (op):
 
         for l in lista_check:
 
-            current_font_name = l.cget("font")  
-            current_font = font.Font(font=current_font_name)
-            current_size = current_font.cget("size")       
-            nuevo_tamano = current_size - tam
-            current_font.configure(size=nuevo_tamano)
-            l.config(font=current_font)
+            if l != 0:
+
+                current_font_name = l.cget("font")  
+                current_font = font.Font(font=current_font_name)
+                current_size = current_font.cget("size")       
+                nuevo_tamano = current_size - tam
+                current_font.configure(size=nuevo_tamano)
+                l.config(font=current_font)
 
         tam_act = "Pre"
         tam = 0
@@ -1136,10 +1193,12 @@ def tip_fuente (op):
 
         for l in lista_check:
 
-            current_font_name = l.cget("font")  
-            current_font = font.Font(font=current_font_name)
-            current_font.configure(family="Courier New")
-            l.config(font=current_font)
+            if l != 0:
+
+                current_font_name = l.cget("font")  
+                current_font = font.Font(font=current_font_name)
+                current_font.configure(family="Courier New")
+                l.config(font=current_font)
 
         tip_act = "Courier New"
         boton_tip_fun.config(text="Tamaño de fuente : Courier New") 
@@ -1167,10 +1226,12 @@ def tip_fuente (op):
 
         for l in lista_check:
 
-            current_font_name = l.cget("font")  
-            current_font = font.Font(font=current_font_name)
-            current_font.configure(family="Comic Sans MS")
-            l.config(font=current_font)
+            if l != 0:
+
+                current_font_name = l.cget("font")  
+                current_font = font.Font(font=current_font_name)
+                current_font.configure(family="Comic Sans MS")
+                l.config(font=current_font)
 
         tip_act = "Comic Sans MS"
         boton_tip_fun.config(text="Tamaño de fuente : Comic") 
@@ -1205,10 +1266,12 @@ def tip_fuente (op):
 
         for l in lista_check:
 
-            current_font_name = l.cget("font")  
-            current_font = font.Font(font=current_font_name)
-            current_font.configure(family="Open Sans")
-            l.config(font=current_font)
+            if l != 0:
+
+                current_font_name = l.cget("font")  
+                current_font = font.Font(font=current_font_name)
+                current_font.configure(family="Open Sans")
+                l.config(font=current_font)
 
         tip_act = "Pre"
         boton_tip_fun.config(text="Tamaño de fuente : Pre") 

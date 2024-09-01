@@ -13,12 +13,10 @@ def crear(u,n,i,j):
 	ref.set({n:{i:ecuacion}})
 
 
-
 def leerBok(usuario,n):
 
 	ref = db.reference(usuario)
 	return ref.child(n).get()
-
 
 
 def act(usuario,n,i,j):
@@ -28,12 +26,10 @@ def act(usuario,n,i,j):
 	ref.child(n).update(m)
 
 
-
 def borrar(usuario,n,i):
 
 	ref = db.reference(usuario)
 	ref.child(n).child(i).delete()
-
 
 
 def nodo(usuario):
@@ -48,7 +44,6 @@ def nodo(usuario):
     return lista
 
 
-
 def subnodos (usuario,n):
 
 	ref = db.reference(usuario)
@@ -56,7 +51,6 @@ def subnodos (usuario,n):
 	lista = list(nodo.keys())
 	
 	return lista
-
 
 
 def valor (usuario,n,j):
