@@ -77,11 +77,12 @@ def ventana ():
     fuente = tkFont.Font(family="Open Sans", size=15)
 
     entrada = Entry(frame_calculadora, font=fuente,bg="#dff6e7", relief="flat")
-    entrada.place(relx=0.035, rely=0.06, relwidth=0.92, relheight=0.055 )
+    entrada.place(relx=0.035, rely=0.12, relwidth=0.92, relheight=0.06 )
     
     entrada_result= Entry(frame_calculadora, font=fuente,bg="#dff6e7", relief="flat", justify="right")
-    entrada_result.place(relx=0.035, rely=0.13, relwidth=0.92, relheight=0.055)
-
+    entrada_result.place(relx=0.035, rely=0.19, relwidth=0.92, relheight=0.06)
+    entrada_result.bind("<Key>", bloqueo_teclado)
+    
     entrada.focus_set()
 
     fig = Figure()
@@ -138,50 +139,35 @@ def ventana ():
     boton_division = Button(frame_calculadora, text="÷",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"÷"),boton_presionado("boton_division")])
     boton_division.place(relx=0.503, rely=0.5875,relwidth=0.145, relheight=0.09)
 
-    boton_resultado = Button(frame_calculadora, text="Graficar/Resultado",font=("Open Sans",7),compound="center",command= lambda : [guardar_ans(entrada_result),mostrar_funciones (entrada,frame_funciones,traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select)),data(usuario,obtener_fecha_actual(),opciones(),entrada)])
-    boton_resultado.place(relx=0.659, rely=0.1975,relwidth=0.30, relheight=0.09)
+    boton_resultado = Button(frame_calculadora, text="Graficar/Resultado",font=("Open Sans",7),compound="center",command= lambda : [(entrada_result),mostrar_funciones (entrada,frame_funciones,traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select)),data(usuario,obtener_fecha_actual(),opciones(),entrada)])
+    boton_resultado.place(relx=0.659, rely=0.295,relwidth=0.30, relheight=0.09)
 
-    boton_izquierda = Button(frame_calculadora, text="˂",font=("Open Sans",13),compound="center", command= lambda : [ cursor_izquierda(pestaña,entradas,entrada)])
-    boton_izquierda.place(relx=0.035, rely=0.1975,relwidth=0.145, relheight=0.09)
-
-    boton_arriba = Button(frame_calculadora, text="˄",font=("Open Sans",13),compound="center", command= lambda : [cursor_arriba(entrada,entrada_result)])
-    boton_arriba.place(relx=0.191, rely=0.1975, relwidth=0.145, relheight=0.09)
-
-    boton_abajo = Button(frame_calculadora, text="˅",font=("Open Sans",13),compound="center", command= lambda : [cursor_abajo(entrada,entrada_result)])
-    boton_abajo.place(relx=0.347, rely=0.1975, relwidth=0.145, relheight=0.09)
-
-    boton_derecha = Button(frame_calculadora, text="˃",font=("Open Sans",13),compound="center", command= lambda : [cursor_derecha(pestaña,entradas,entrada)])
-    boton_derecha.place(relx=0.503, rely=0.1975, relwidth=0.145, relheight=0.09)
-
-    boton_sen = Button(frame_calculadora, text="sen",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen("),boton_presionado("boton_sen")])
+    boton_sen = Button(frame_calculadora, text="sen",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen()"),boton_presionado("boton_sen")])
     boton_sen.place(relx=0.035, rely=0.295, relwidth=0.145, relheight=0.09)
 
-    boton_cos = Button(frame_calculadora, text="cos",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos("),boton_presionado("boton_cos")])
+    boton_cos = Button(frame_calculadora, text="cos",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos()"),boton_presionado("boton_cos")])
     boton_cos.place(relx=0.191, rely=0.295, relwidth=0.145, relheight=0.09)
 
-    boton_tg = Button(frame_calculadora, text="tg",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg("),boton_presionado("boton_tg")])
+    boton_tg = Button(frame_calculadora, text="tg",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg()"),boton_presionado("boton_tg")])
     boton_tg.place(relx=0.347, rely=0.295, relwidth=0.145, relheight=0.09)
 
-    boton_asen = Button(frame_calculadora, text="sen-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen-1("),boton_presionado("boton_asen")])
-    boton_asen.place(relx=0.503, rely=0.295, relwidth=0.145, relheight=0.09)
+    boton_asen = Button(frame_calculadora, text="sen-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"sen-1()"),boton_presionado("boton_asen")])
+    boton_asen.place(relx=0.035, rely=0.3925, relwidth=0.145, relheight=0.09)
 
-    boton_acos = Button(frame_calculadora, text="cos-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos-1("),boton_presionado("boton_acos")])
-    boton_acos.place(relx=0.659, rely=0.295, relwidth=0.145, relheight=0.09)
+    boton_acos = Button(frame_calculadora, text="cos-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"cos-1()"),boton_presionado("boton_acos")])
+    boton_acos.place(relx=0.191, rely=0.3925, relwidth=0.145, relheight=0.09)
 
-    boton_atg = Button(frame_calculadora, text="tg-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg-1("),boton_presionado("boton_atg")])
-    boton_atg.place(relx=0.815, rely=0.295, relwidth=0.145, relheight=0.09)
+    boton_atg = Button(frame_calculadora, text="tg-1",font=("Open Sans",11),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"tg-1()"),boton_presionado("boton_atg")])
+    boton_atg.place(relx=0.347, rely=0.3925, relwidth=0.145, relheight=0.09)
 
     boton_pi = Button(frame_calculadora, text="ℼ",font=("Times New Roman",13, "italic"),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"ℼ"),boton_presionado("boton_pi")])
-    boton_pi.place(relx=0.035, rely=0.3925, relwidth=0.145, relheight=0.09)
+    boton_pi.place(relx=0.503, rely=0.295, relwidth=0.145, relheight=0.09)
 
     boton_euler = Button(frame_calculadora, text="e",font=("Times New Roman",13, "italic"),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"e"),boton_presionado("boton_euler")])
-    boton_euler.place(relx=0.191, rely=0.3925, relwidth=0.145, relheight=0.09)
+    boton_euler.place(relx=0.503, rely=0.3925, relwidth=0.145, relheight=0.09)
 
     boton_x = Button(frame_calculadora, text="x",font=("Times New Roman",13, "italic"),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"x"),boton_presionado("boton_x")])
-    boton_x.place(relx=0.347, rely=0.3925, relwidth=0.145, relheight=0.09)
-
-    boton_y = Button(frame_calculadora, text="y",font=("Times New Roman",13, "italic"),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"y"),boton_presionado("boton_y")])
-    boton_y.place(relx=0.503, rely=0.3925, relwidth=0.145, relheight=0.09)
+    boton_x.place(relx=0.503, rely=0.49, relwidth=0.145, relheight=0.09)
 
     boton_DEL = Button(frame_calculadora, text="DEL",font=("Open Sans",13),compound="center", command= lambda : [DEL(pestaña,entradas,entrada)])
     boton_DEL.place(relx=0.659, rely=0.3925, relwidth=0.145, relheight=0.09)
@@ -189,17 +175,17 @@ def ventana ():
     boton_AC = Button(frame_calculadora, text="AC",font=("Open Sans",13),compound="center",command= lambda : [AC(pestaña,entradas,entrada,entrada_result)])
     boton_AC.place(relx=0.815, rely=0.3925, relwidth=0.145, relheight=0.09)
 
-    boton_logaritmo = Button(frame_calculadora, text="log",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"log_()("),boton_presionado("boton_logaritmo")])
+    boton_logaritmo = Button(frame_calculadora, text="log",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"log_()()"),boton_presionado("boton_logaritmo")])
     boton_logaritmo.place(relx=0.035, rely=0.49, relwidth=0.145, relheight=0.09)
 
-    boton_ln = Button(frame_calculadora, text="ln",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"ln("),boton_presionado("boton_ln")])
+    boton_ln = Button(frame_calculadora, text="ln",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"ln()"),boton_presionado("boton_ln")])
     boton_ln.place(relx=0.191, rely=0.49, relwidth=0.145, relheight=0.09)
 
     boton_potencia = Button(frame_calculadora, text="□▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()^("),boton_presionado("boton_potencia")])
     boton_potencia.place(relx=0.347, rely=0.49, relwidth=0.145, relheight=0.09)
 
-    boton_raiz = Button(frame_calculadora, text="▫√",font=("Open Sans",13),compound="center", command= lambda : [ click_boton(pestaña,entradas,entrada,"()^√("),boton_presionado("boton_raiz")])
-    boton_raiz.place(relx=0.503, rely=0.49, relwidth=0.145, relheight=0.09)
+    boton_raiz = Button(frame_calculadora, text="▫√",font=("Open Sans",13),compound="center", command= lambda : [ click_boton(pestaña,entradas,entrada,"()^√()"),boton_presionado("boton_raiz")])
+    boton_raiz.place(relx=0.659, rely=0.685, relwidth=0.145, relheight=0.09)
 
     boton_parentesis_a = Button(frame_calculadora, text="(",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"("),boton_presionado("boton_parentesis_a")])
     boton_parentesis_a.place(relx=0.659, rely=0.49, relwidth=0.145, relheight=0.09)
@@ -210,14 +196,11 @@ def ventana ():
     boton_valor_adsoluto = Button(frame_calculadora, text="|□|",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"|"),boton_presionado("boton_valor_adsoluto")])
     boton_valor_adsoluto.place(relx=0.659, rely=0.5875, relwidth=0.145, relheight=0.09)
 
-    boton_fraccion = Button(frame_calculadora, text="▫∕▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"() ∕ ("),boton_presionado("boton_fraccion")])
+    boton_fraccion = Button(frame_calculadora, text="▫∕▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"() ∕ ()"),boton_presionado("boton_fraccion")])
     boton_fraccion.place(relx=0.815, rely=0.5875, relwidth=0.145, relheight=0.09)
 
-    boton_cientifica = Button(frame_calculadora, text="×10▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()×10^("),boton_presionado("boton_cientifica")])
-    boton_cientifica.place(relx=0.659, rely=0.685, relwidth=0.145, relheight=0.09)
-
-    boton_ANS = Button(frame_calculadora, text="ANS",font=("Open Sans",13),compound="center", command= lambda : [ANS(entrada)])
-    boton_ANS.place(relx=0.815, rely=0.685, relwidth=0.145, relheight=0.09)
+    boton_cientifica = Button(frame_calculadora, text="×10▫",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()×10^()"),boton_presionado("boton_cientifica")])
+    boton_cientifica.place(relx=0.815, rely=0.685, relwidth=0.145, relheight=0.09)
 
     boton_porcentaje = Button(frame_calculadora, text="%",font=("Open Sans",13),compound="center", command= lambda : [click_boton(pestaña,entradas,entrada,"()%("),boton_presionado("boton_porcentaje")])
     boton_porcentaje.place(relx=0.659, rely=0.7825, relwidth=0.145, relheight=0.09)
@@ -232,28 +215,28 @@ def ventana ():
     boton_factorial.place(relx=0.815, rely=0.88, relwidth=0.145, relheight=0.09)
 
     boton_historial = Button(frame_calculadora, text="Historial",font=("Open Sans",8),compound="center", command = lambda : historial(pestaña))
-    boton_historial.place(relx= 0.285, rely = 0.002, relwidth=0.330, relheight=0.05 )
+    boton_historial.place(relx= 0.285, rely = 0.03, relwidth=0.330, relheight=0.05 )
 
     boton_eli_his = Button(frame_calculadora, text="Eliminar Historial",font=("Open Sans",8),compound="center", command = lambda : eliminar_historial(pestaña))
-    boton_eli_his.place(relx= 0.622, rely = 0.002, relwidth=0.330, relheight=0.05 )
+    boton_eli_his.place(relx= 0.622, rely = 0.03, relwidth=0.330, relheight=0.05 )
 
     boton_conf = Button(frame_calculadora, command= lambda : menu_confi ())
-    boton_conf.place(relx= 0.035, rely = 0.002, relwidth=0.093, relheight=0.05 )
+    boton_conf.place(relx= 0.035, rely = 0.03, relwidth=0.093, relheight=0.05 )
 
     boton_tema = Button(frame_calculadora, command= lambda : modo() )
-    boton_tema.place(relx= 0.132, rely = 0.002, relwidth=0.15, relheight=0.05 )
+    boton_tema.place(relx= 0.132, rely = 0.03, relwidth=0.15, relheight=0.05 )
 
     botones_num = [boton_1,boton_2,boton_3,boton_4,boton_5,boton_6,boton_7,boton_8,boton_9,boton_0]
 
-    botones_oper = [boton_punto,boton_igual,boton_mas,boton_menos,boton_por,boton_division,boton_igual,boton_izquierda,boton_arriba,boton_abajo,boton_derecha,boton_sen,boton_cos,boton_tg,
-                    boton_asen,boton_acos,boton_atg,boton_pi,boton_euler,boton_x,boton_y,boton_logaritmo,boton_ln,boton_potencia,boton_raiz,boton_parentesis_a,boton_parentesis_c,
-                    boton_valor_adsoluto,boton_fraccion,boton_cientifica,boton_porcentaje,boton_ala_diez,boton_e,boton_factorial,boton_ANS]
+    botones_oper = [boton_punto,boton_igual,boton_mas,boton_menos,boton_por,boton_division,boton_igual,boton_sen,boton_cos,boton_tg,
+                    boton_asen,boton_acos,boton_atg,boton_pi,boton_euler,boton_x,boton_logaritmo,boton_ln,boton_potencia,boton_raiz,boton_parentesis_a,boton_parentesis_c,
+                    boton_valor_adsoluto,boton_fraccion,boton_cientifica,boton_porcentaje,boton_ala_diez,boton_e,boton_factorial]
     
     botones_res = [boton_resultado,boton_DEL,boton_AC] 
 
     botones_conf = [boton_historial,boton_eli_his,boton_conf,boton_tema]
 
-    botones_esp =[boton_pi,boton_euler,boton_x,boton_y,boton_e,boton_factorial]
+    botones_esp =[boton_pi,boton_euler,boton_x, boton_e,boton_factorial]
 
     bot.extend([botones_num,botones_conf,botones_oper,botones_res,botones_esp])
 
@@ -325,7 +308,7 @@ def mostrar_submenu(event):
     seleccionar_opcion = menu_principal.get()
     submenu.delete(0, END)
     submenu_valore = subnodos(usuario,seleccionar_opcion)
-    sub = len(submenu_valore)
+    sub = len(submenu_valores)
     i = 0
     
     for i in range (i,sub):
@@ -487,7 +470,7 @@ def obtener_opcion_seleccionada():
         entrada.delete(0,END)
         entrada.insert(0,opcion_seleccionada)
 
-        traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select),guardar_ans(entrada_result),mostrar_funciones(entrada, frame_funciones)
+        traduccion(fig,ax,entrada,entrada_result,frame_grafica,frame_funciones,color_select),(entrada_result),mostrar_funciones(entrada, frame_funciones)
             
 
 def obtener_opcion_seleccionada_eli(seleccionar_opcion,submenu_valore):
