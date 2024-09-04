@@ -1529,9 +1529,22 @@ def operacion_principal(fig,ax,entrada,entrada_result,ecua,frame,frame_funciones
                 hay_x = 1
 
         if hay_x > 0:
-        
-            respuesta = operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select)
-            return True
+
+            hay_op = 0
+            for i in ecu:
+                if i == ("+","-","*","/","=","S","C","T","s","u","t","P","E","e","L","l","p","r","v","F","j","o","B","w","|"):
+                    hay_op += 1
+                    break
+            
+            if hay_op == 1:
+                 
+                respuesta = operaciones_x(fig,ax,entrada,ecu,frame,frame_funciones,color_select)
+                return True
+            
+            else:
+                
+                entrada_result.delete(0,"end")
+                entrada_result.insert(0,"Syntax Error")
 
         else:
 
